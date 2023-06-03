@@ -1,64 +1,171 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Installation ##
 
-## About Laravel
+### Clone GitHub repo using the repository url. ###
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Find a directory (folder)on your computer where you want to store the project. I make use of Laragon, so all my projects are inside a folder called `www/`, that is where I run the following command, which will pull the project from github and create a copy of it on my local computer at the “www” directory.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+```
+git clone https://github.com/Kenura-R-Gunarathna/kuku-food-store-website.git 
+```
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+To get the link to the repo, just visit the github page and click on the green “clone or download” button on the right hand side. This will reveal a url that you will replace in the `Repository_url` part of the snippet above.
 
-## Learning Laravel
+### cd into your project ###
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+To execute the rest of the commands, you will need to be inside that project . Type `cd projectName` to move to the working location of the project file we just created.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```
+cd REPOSITORY_URL
+```
 
-## Laravel Sponsors
+### Install Composer Dependencies ###
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Running composer, checks the `composer.json` file which is submitted to the github repo and lists all of the composer (PHP) packages that your repo requires.
 
-### Premium Partners
+```
+composer install
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+### Create a copy of your .env file ###
 
-## Contributing
+`.env` files are not committed to source control for security reasons. But there is a `.env.example` which is a template of the `.env` file that the project have. So we will make a copy of the `.env.example` file and create a `.env` file from it.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```
+cp .env.example .env
+```
 
-## Code of Conduct
+### Generate an app encryption key ###
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Every laravel project requires an app encryption key which is generally randomly generated and stored in your `.env` file. The app will use this encryption key to encode various elements of your application from cookies to password hashes and more.
 
-## Security Vulnerabilities
+```
+php artisan key:generate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Create an empty database for our application ###
 
-## License
+Create an empty database for your project, your database name should correspond with your project name.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Add database information to allow web app to connect to the database. ###
+
+In the .env file fill in the `DB_HOST`, `DB_PORT`, `DB_DATABASE`, `DB_USERNAME`, and `DB_PASSWORD` options to match the details of the database you just created. This will allow us to run migrations and seed the database if there is any table to seed.
+
+### Add mail server information to allow web app to send emails. ###
+
+In the .env file fill in the `MAIL_HOST`, `MAIL_PORT`, `MAIL_USERNAME`, `DB_USERNAME`, and `MAIL_PASSWORD` options to match the details of the database you just created. This will allow the web app to connect to the mail sever and send messages.
+
+For further details follow the blog : https://joy-joel.medium.com/how-to-set-up-a-laravel-project-cloned-from-github-e5cf3211ff53
+
+## Turn the website from DEVELOPMENT => PROJECT ##
+
+To complete configuration of caches in the site you can open th url : https://restaurantkuku.com/configure-site. By this all site data like view, cache are cleared and route, config cache are re-created. Or else you can follow the below method.
+
+### Autoloader Optimization ###
+
+When deploying to production, make sure that you are optimizing Composer's class autoloader map so Composer can quickly find the proper file to load for a given class:
+
+```
+composer install --optimize-autoloader --no-dev
+```
+
+### Caching Configuration ###
+
+When deploying your application to production, you should make sure that you run the `config:cache` Artisan command during your deployment process:
+
+```
+php artisan config:cache
+```
+
+or open the url : https://restaurantkuku.com/cache-config
+
+This command will combine all of Laravel's configuration files into a single, cached file, which greatly reduces the number of trips the framework must make to the filesystem when loading your configuration values.
+
+### Caching Events ###
+
+If your application is utilizing event discovery, you should cache your application's event to listener mappings during your deployment process. This can be accomplished by invoking the `event:cache` Artisan command during deployment:
+
+```
+php artisan event:cache
+```
+
+or open the url : https://restaurantkuku.com/clear-cache
+
+### Caching Routes ###
+
+If you are building a large application with many routes, you should make sure that you are running the `route:cache` Artisan command during your deployment process:
+
+```
+php artisan route:cache
+```
+
+or open the url : https://restaurantkuku.com/cache-route
+
+This command reduces all of your route registrations into a single method call within a cached file, improving the performance of route registration when registering hundreds of routes.
+
+### Caching Views ###
+
+When deploying your application to production, you should make sure that you run the `view:cache` Artisan command during your deployment process:
+
+```
+php artisan view:cache
+```
+
+or open the url : https://restaurantkuku.com/clear-view
+
+This command precompiles all your Blade views so they are not compiled on demand, improving the performance of each request that returns a view.
+
+### Debug Mode ###
+
+The debug option in your config/app.php configuration file determines how much information about an error is actually displayed to the user. By default, this option is set to respect the value of the `APP_DEBUG` environment variable, which is stored in your application's `.env` file.
+
+In your production environment, this value should always be `false`. If the `APP_DEBUG` variable is set to `true` in production, you risk exposing sensitive configuration values to your application's end users.
+
+### Editing the .htaccess ###
+
+Chenge the code of .htaccess in project folder as,
+
+```
+RewriteEngine On
+RewriteRule (.*) /public/$1 [L]
+
+RewriteEngine On
+RewriteCond %{HTTP:X-Forwarded-Proto} =http
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+```
+
+If you are installing it on a server put the below code instead of above code.
+
+```
+<IfModule mod_headers.c>
+    <FilesMatch>
+        Header always set Content-Security-Policy "upgrade-insecure-requests;"
+    </FilesMatch>
+</IfModule>
+
+RewriteEngine On
+RewriteRule (.*) /public/$1 [L]
+
+RewriteEngine On
+RewriteCond %{HTTP:X-Forwarded-Proto} =http
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+```
+
+### Creating the database and the tables ###
+
+run the below migration code to create the tanles wanted unseer the database names under `DB_DATABASE` in the `.env` file.
+
+```
+php artisan migrate
+```
+## Test the website ##
+
+run the below code to start the seeding process that comes with the Laravel frame work to insert some data into tables to show the demo and for fut=rther development purposes.
+
+```
+php artisan db:seed
+```
+
+@Thank You, Kenura R. Gunarathna
